@@ -59,7 +59,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Image</label>
-                                    <input value="${detail.image }" name="image" type="text" class="form-control" required>
+                                    <input value="${detail.image }" name="image" type="file" class="form-control" accept="image/*" required>
+
                                 </div>
                                 <div class="form-group">
                                     <label>Price</label>
