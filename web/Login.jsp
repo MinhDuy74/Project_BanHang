@@ -16,6 +16,7 @@
         <title>Login Form</title>
     </head>
     <body>
+        <jsp:include page="Menu.jsp"></jsp:include>
         <div id="logreg-forms">
             <form class="form-signin" action="login" method="post">
                 <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>

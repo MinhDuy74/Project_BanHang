@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-         <link rel="icon" href="https://ibrand.vn/wp-content/uploads/2022/10/logo-shop-giay-8.jpg" /> 
+        <link rel="icon" href="https://ibrand.vn/wp-content/uploads/2022/10/logo-shop-giay-8.jpg" /> 
         <title>JSP Page</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -60,60 +60,96 @@
                             <div class="card">
                                 <div class="row">
                                     <aside class="col-sm-5 border-right">
-                                        <article class="gallery-wrap"> 
-                                            <div class="img-big-wrap">
-                                                <div> <a href="#"><img src="${detail.image }"></a></div>
-                                            </div> <!-- slider-product.// -->
-                                            <div class="img-small-wrap">
-                                            </div> <!-- slider-nav.// -->
-                                        </article> <!-- gallery-wrap .end// -->
-                                    </aside>
-                                    <aside class="col-sm-7">
-                                        <article class="card-body p-5">
-                                            <h3 class="title mb-3">${detail.name}</h3>
+                                        <!-- Carousel ảnh sản phẩm -->
+                                        <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                            <c:forEach items="${listImages}" var="img" varStatus="loop">
+                                                <div class="carousel-item ${loop.index == 0 ? 'active' : ''}">
+                                                    <img class="d-block w-100" src="${pageContext.request.contextPath}/${img}" alt="Ảnh sản phẩm">
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
 
-                                            <p class="price-detail-wrap"> 
-                                                <span class="price h3 text-warning"> 
-                                                    <span class="currency">US $</span><span class="num"> ${detail.price}</span>
-                                                </span> 
-                                            </p> <!-- price-detail-wrap .// -->
-                                            <dl class="item-property">
-                                                <dt>Description</dt>
-                                                <dd><p>
-                                                       ${detail.description}
+                                    <!-- Thumbnail indicators (nếu muốn) -->
+                                    <ol class="carousel-indicators mt-2">
+                                        <c:forEach items="${listImages}" var="img" varStatus="loop">
+                                            <li data-target="#productCarousel" data-slide-to="${loop.index}" class="${loop.index == 0 ? 'active' : ''}">
+                                                <img src="${pageContext.request.contextPath}/${img}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;">
+                                            </li>
+                                        </c:forEach>
+                                    </ol>
+                                    </article>
 
-                                                    </p></dd>
-                                            </dl>
+                                    <!-- Bên phần thông tin (col-sm-7), thêm chọn màu trước Quantity -->
+                                    <c:if test="${not empty listColors}">
+                                        <div class="mb-3">
+                                            <label style="font-weight:bold;">Màu sắc:</label><br/>
+                                            <c:forEach items="${listColors}" var="c">
+                                                <a href="detail?pid=${detail.id}&colorId=${c.colorId}"
+                                                   class="btn btn-sm ${activeColorId == c.colorId ? 'btn-primary' : 'btn-outline-secondary'}"
+                                                   style="margin:2px;">
+                                                    <span style="display:inline-block;width:14px;height:14px;background:${c.colorCode};border:1px solid #ccc;margin-right:6px;vertical-align:middle;"></span>
+                                                    ${c.colorName}
+                                                </a>
+                                            </c:forEach>
+                                        </div>
+                                    </c:if>
+                                </aside>
+                                <aside class="col-sm-7">
+                                    <article class="card-body p-5">
+                                        <h3 class="title mb-3">${detail.name}</h3>
 
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <dl class="param param-inline">
-                                                        <dt>Quantity: </dt>
-                                                        <dd>
-                                                            <select class="form-control form-control-sm" style="width:70px;">
-                                                                <option> 1 </option>
-                                                                <option> 2 </option>
-                                                                <option> 3 </option>
-                                                            </select>
-                                                        </dd>
-                                                    </dl>  <!-- item-property .// -->
-                                                </div> <!-- col.// -->
+                                        <p class="price-detail-wrap"> 
+                                            <span class="price h3 text-warning"> 
+                                                <span class="currency">US $</span><span class="num"> ${detail.price}</span>
+                                            </span> 
+                                        </p> <!-- price-detail-wrap .// -->
+                                        <dl class="item-property">
+                                            <dt>Description</dt>
+                                            <dd><p>
+                                                    ${detail.description}
 
-                                            </div> <!-- row.// -->
-                                            <hr>
-                                            <a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-                                            <a href="cart?id=${detail.id}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
-                                        </article> <!-- card-body.// -->
-                                    </aside> <!-- col.// -->
-                                </div> <!-- row.// -->
-                            </div> <!-- card.// -->
+                                                </p></dd>
+                                        </dl>
+
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <dl class="param param-inline">
+                                                    <dt>Quantity: </dt>
+                                                    <dd>
+                                                        <select class="form-control form-control-sm" style="width:70px;">
+                                                            <option> 1 </option>
+                                                            <option> 2 </option>
+                                                            <option> 3 </option>
+                                                        </select>
+                                                    </dd>
+                                                </dl>  <!-- item-property .// -->
+                                            </div> <!-- col.// -->
+
+                                        </div> <!-- row.// -->
+                                        <hr>
+                                        <a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
+                                        <a href="cart?id=${detail.id}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                                    </article> <!-- card-body.// -->
+                                </aside> <!-- col.// -->
+                            </div> <!-- row.// -->
+                        </div> <!-- card.// -->
 
 
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         <jsp:include page="Footer.jsp"></jsp:include>
     </body>
 </html>

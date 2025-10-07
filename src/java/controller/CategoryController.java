@@ -13,9 +13,6 @@ import dao.DAO;
 import model.Category;
 import model.Product;
 
-/**
- * Servlet implementation class CategoryController
- */
 @WebServlet("/category")
 public class CategoryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

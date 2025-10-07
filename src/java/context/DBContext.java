@@ -4,35 +4,35 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-
 public class DBContext {
-	private static final String DB_SeverName = "DESKTOP-2021CFA";
-	private static final String DB_Login = "sa";
-	private static final String DB_password = "123456789";
-	private static final String DB_databaseName = "Wish";
-   
-	public static Connection getConnection() {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String DB_URL = "jdbc:sqlserver://" +DB_SeverName + ":1433;DatabaseName=" + DB_databaseName + "; encrypt=true;trustServerCertificate=true";
-         
-			return DriverManager.getConnection(DB_URL,DB_Login,DB_password);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	public static void main(String[] args) {
-		Connection con =DBContext.getConnection();
-		if(con==null) {
-			System.out.println("That bai");
-		}else {
-			System.out.println("Thanh cong");
-		}
-	}
-	
+
+    private static final String URL = "jdbc:mysql://localhost:3306/shop_banhang?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "12345678";
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Load driver MySQL
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Không tìm thấy MySQL Driver", e);
+        }
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void main(String[] args) {
+        try {
+            Connection con = DBContext.getConnection();
+            if (con == null) {
+                System.out.println("Thất bại");
+            } else {
+                System.out.println("Thành công");
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi kết nối: " + e.getMessage());
+        }
+    }
+
 }

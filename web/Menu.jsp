@@ -6,7 +6,7 @@
         <a class="navbar-brand" href="home"><img
 				src="https://ibrand.vn/wp-content/uploads/2022/10/logo-shop-giay-8.jpg"
 				alt="Logo" width="50" height="50"
-				class="d-inline-block align-text-top">  Quoc Shoes</a>
+				class="d-inline-block align-text-top">Shoes</a>
 				
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
             <ul class="navbar-nav m-auto">
             <c:if test="${sessionScope.acc.isAdmin == 1}">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Manager Account</a>
+                    <a class="nav-link" href="ManagerAccount.jsp">Manager Account</a>
                 </li>
                  </c:if>
                  
