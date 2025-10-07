@@ -25,19 +25,7 @@ public class AddProductController extends HttpServlet {
             return;
         }
         String name = request.getParameter("name");
-//        String image = request.getParameter("image");
-        Part filePart = request.getPart("images");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String uploadPath = getServletContext().getRealPath("/uploads");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String filePath = uploadPath + File.separator + fileName;
-        filePart.write(filePath);
-
-// Đường dẫn lưu vào DB
-        String image = "uploads/" + fileName;
+        String image = request.getParameter("image");
         String priceStr = request.getParameter("price");
         String title = request.getParameter("title");
         String description = request.getParameter("description");

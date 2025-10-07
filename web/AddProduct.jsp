@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <label>Ảnh (URL)</label>
-                    <input type="file" name="images" class="form-control" accept="image/*"  required />
+                    <input type="file" name="image" class="form-control" accept="image/*"  required />
                 </div>
                 <div class="form-group">
                     <label>Giá</label>
