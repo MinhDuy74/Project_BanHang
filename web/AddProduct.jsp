@@ -18,7 +18,7 @@
             </c:if>
                 
             <h3>Thêm sản phẩm</h3>
-            <form action="${pageContext.request.contextPath}/add-product" method="post">
+            <form action="${pageContext.request.contextPath}/add-product" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
                     <input name="name" type="text" class="form-control" required>
