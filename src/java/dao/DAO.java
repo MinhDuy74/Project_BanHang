@@ -270,10 +270,28 @@ public class DAO {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, id);
-            ps.executeUpdate();
-
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Deleted product with ID: " + id);
+            } else {
+                System.out.println("No product found with ID: " + id);
+            }
         } catch (Exception e) {
-
+            System.err.println("Error while deleting product with ID " + id + ": " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception ignore) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception ignore) {
+            }
         }
     }
 

@@ -38,7 +38,9 @@
                             <a href="${pageContext.request.contextPath}/add-product" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i> <span>Add New Product</span>
                             </a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                            <a href="delete?pid=${o.id}" class="btn btn-danger" data-toggle="modal">
+                                <i class="material-icons">&#xE15C;</i><span>Delete</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -53,7 +55,6 @@
                             </th>
                             <th>ID</th>
                             <th>Name</th>
-                            <!--                            <th>Image</th>-->
                             <th>Price</th>
                             <th>Actions</th>
                         </tr>
@@ -104,28 +105,6 @@
             <a href="home"><button type="button" class="btn btn-primary">Back to home</button></a>
 
         </div>
-        <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Delete Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <p>Are you sure you want to delete these Records?</p>
-                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </a>
     <script src="js/manager.js" type="text/javascript"></script>
 </body>
 </html>
