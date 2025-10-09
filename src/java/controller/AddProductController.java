@@ -60,7 +60,7 @@ public class AddProductController extends HttpServlet {
                     String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
                     String savePath = uploadPath + File.separator + fileName;
                     part.write(savePath); // Lưu file vào server
-                    imageUrl = "/images/products/" + fileName; // Đường dẫn lưu vào DB
+                    imageUrl = "images/products/" + fileName; // Đường dẫn lưu vào DB
                 }
             }
 
