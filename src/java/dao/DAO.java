@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.sql.SQLException;
 import context.DBContext;
 import model.Account;
 import model.Category;
+import model.Payment;
 import model.Product;
 
 public class DAO {
@@ -499,5 +500,35 @@ public class DAO {
         for (Product o : list) {
             System.out.println(o);
         }
+    }
+
+    public void insertPayment(Payment payment) throws SQLException {
+        String sql = "INSERT INTO Payment (order_id, payment_method, amount, status) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, payment.getOrderId());
+            ps.setString(2, payment.getPaymentMethod());
+            ps.setDouble(3, payment.getAmount());
+            ps.setString(4, payment.getStatus());
+            ps.executeUpdate();
+        }
+    }
+
+    public Payment getPaymentByOrderId(int orderId) throws SQLException {
+        String sql = "SELECT * FROM Payment WHERE order_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Payment payment = new Payment();
+                payment.setPaymentId(rs.getInt("payment_id"));
+                payment.setOrderId(rs.getInt("order_id"));
+                payment.setPaymentMethod(rs.getString("payment_method"));
+                payment.setPaymentDate(rs.getTimestamp("payment_date"));
+                payment.setAmount(rs.getDouble("amount"));
+                payment.setStatus(rs.getString("status"));
+                return payment;
+            }
+        }
+        return null;
     }
 }

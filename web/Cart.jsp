@@ -95,7 +95,11 @@
                                         <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tổng thanh toán</strong>
                                             <h5 class="font-weight-bold">${sum} $</h5>
                                         </li>
-                                    </ul><a href="buy" class="btn btn-dark rounded-pill py-2 btn-block">Mua hàng</a>
+                                    </ul><form action="payment" method="get">
+                                        <input type="hidden" name="orderId" value="${orderId}" />
+                                        <input type="hidden" name="amount" value="${sum}" />
+                                        <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block">Thanh toán</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
