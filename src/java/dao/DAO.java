@@ -11,6 +11,7 @@ import model.Account;
 import model.Category;
 import model.Payment;
 import model.Product;
+import java.sql.Statement;
 
 public class DAO {
 
@@ -530,5 +531,30 @@ public class DAO {
             }
         }
         return null;
+    }
+
+    public Integer getPendingOrderIdByUserId(int userId) throws SQLException {
+        String sql = "SELECT order_id FROM Orders WHERE user_id = ? AND status = 'pending' LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            }
+        }
+        return null;
+    }
+
+    public int createOrder(int userId) throws SQLException {
+        String sql = "INSERT INTO Orders (user_id, status) VALUES (?, 'pending')";
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        throw new SQLException("Failed to create order");
     }
 }

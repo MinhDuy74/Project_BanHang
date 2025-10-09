@@ -4,6 +4,7 @@
     Author     : trinh
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -56,9 +57,9 @@
                                                     </th>
                                                     <td class="align-middle"><strong>${o.price}</strong></td>
                                                     <td class="align-middle">
-                                                        <a href="sub?id=${o.id}"><button class="btnSub">-</button></a> 
+                                                        <a href="cart?id=${o.id}&action=sub"><button class="btnSub">-</button></a> 
                                                         <strong>${o.amount}</strong>
-                                                        <a href="cart?id=${o.id}"><button class="btnAdd">+</button></a>
+                                                        <a href="cart?id=${o.id}&action=add"><button class="btnAdd">+</button></a>
                                                     </td>
                                                     <td class="align-middle"><a href="remove?id=${o.id}" class="text-dark">
                                                             <button type="button" class="btn btn-danger">Delete</button>
@@ -89,11 +90,17 @@
                                 <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Thành tiền</div>
                                 <div class="p-4">
                                     <ul class="list-unstyled mb-4">
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tổng tiền hàng</strong><strong>${total} $</strong></li>
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Phí vận chuyển</strong><strong>Free ship</strong></li>
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">VAT</strong><strong>${vat} $</strong></li>
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tổng thanh toán</strong>
-                                            <h5 class="font-weight-bold">${sum} $</h5>
+                                        <li class="d-flex justify-content-between py-3 border-bottom">
+                                            <strong class="text-muted">Tổng tiền hàng</strong>
+                                            <strong><fmt:formatNumber value="${total}" type="number" maxFractionDigits="0"/> VNĐ</strong>
+                                        </li>
+                                        <li class="d-flex justify-content-between py-3 border-bottom">
+                                            <strong class="text-muted">VAT</strong>
+                                            <strong><fmt:formatNumber value="${vat}" type="number" maxFractionDigits="0"/> VNĐ</strong>
+                                        </li>
+                                        <li class="d-flex justify-content-between py-3 border-bottom">
+                                            <strong class="text-muted">Tổng thanh toán</strong>
+                                            <h5 class="font-weight-bold"><fmt:formatNumber value="${sum}" type="number" maxFractionDigits="0"/> VNĐ</h5>
                                         </li>
                                     </ul><form action="payment" method="get">
                                         <input type="hidden" name="orderId" value="${orderId}" />
@@ -106,7 +113,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div><p>DEBUG: orderId = ${orderId}</p>
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

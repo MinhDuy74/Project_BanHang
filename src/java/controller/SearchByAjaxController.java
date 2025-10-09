@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import dao.DAO;
 import model.Product;
+import java.text.DecimalFormat;
 
 /**
  * Servlet implementation class SearchByAjaxController
@@ -35,7 +36,7 @@ public class SearchByAjaxController extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		String txtSearch =request.getParameter("txt");
-		
+		DecimalFormat formatter = new DecimalFormat("#,###");
 		DAO dao= new DAO();
 		List<Product> list = dao.SearchByName(txtSearch);
 		PrintWriter out= response.getWriter();
@@ -50,7 +51,7 @@ public class SearchByAjaxController extends HttpServlet {
 					+ "                                        </p>\r\n"
 					+ "                                        <div class=\"row\">\r\n"
 					+ "                                            <div class=\"col\">\r\n"
-					+ "                                                <p class=\"btn btn-danger btn-block\">"+o.getPrice()+" $</p>\r\n"
+					+ "                                                <p class=\"btn btn-danger btn-block\">" + formatter.format(o.getPrice()) + " VNĐ</p>\r\n"
 					+ "                                            </div>\r\n"
 					+ "                                            <div class=\"col\">\r\n"
 					+ "                                                <a href=\"#\" class=\"btn btn-success btn-block\">Add to cart</a>\r\n"

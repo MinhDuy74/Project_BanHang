@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,7 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="css/video_reel.css"/>
         <style>
             .gallery-wrap .img-big-wrap img {
                 height: 450px;
@@ -110,9 +112,11 @@
 
                                         <p class="price-detail-wrap"> 
                                             <span class="price h3 text-warning"> 
-                                                <span class="currency">US $</span><span class="num"> ${detail.price}</span>
+                                                <span class="currency">VNĐ</span>
+                                                <span class="num"><fmt:formatNumber value="${detail.price}" type="number" maxFractionDigits="0"/></span>
                                             </span> 
-                                        </p> <!-- price-detail-wrap .// -->
+                                        </p>
+                                        <!-- price-detail-wrap .// -->
                                         <dl class="item-property">
                                             <dt>Description</dt>
                                             <dd><p>
@@ -144,12 +148,28 @@
                                 </aside> <!-- col.// -->
                             </div> <!-- row.// -->
                         </div> <!-- card.// -->
-
-
                     </div>
                 </div>
             </div>
         </div>
-        <jsp:include page="Footer.jsp"></jsp:include>
+        <!-- POPUP MINI REEL di chuyển được -->
+        <div id="mini-reel-popup">
+            <div id="mini-reel-popup-inner">
+                <video id="mini-reel-video" src="videos/video1.mp4" muted autoplay loop></video>
+                <button id="mini-reel-close" onclick="closeMiniReelPopup()">×</button>
+                <div id="mini-reel-live">▶️ Xem Reels</div>
+            </div>
+        </div>
+                <!-- FULLSCREEN REEL xem dạng Facebook -->
+        <div id="full-reel-overlay">
+            <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
+            <div id="full-reel-inner">
+                <button class="full-reel-btn full-reel-btn-prev" onclick="prevReel()">‹</button>
+                <video id="full-reel-video" controls autoplay></video>
+                <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
+            </div>
+        </div>        <jsp:include page="Footer.jsp"></jsp:include>
     </body>
+
+    <script src="js/video_reel.js"></script>
 </html>

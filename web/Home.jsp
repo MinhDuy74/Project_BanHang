@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -13,6 +13,7 @@
         <!------ Include the above in your HEAD tag ---------->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="css/video_reel.css"/>
     </head>
     <body>
         <jsp:include page="Menu.jsp"></jsp:include>
@@ -45,7 +46,9 @@
                                         </p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">${o.price} $</p>
+                                                <p class="btn btn-danger btn-block">
+                                                    <fmt:formatNumber value="${o.price}" type="number" maxFractionDigits="0"/> VNĐ
+                                                </p>
                                             </div>
                                             <div class="col">
                                                 <a href="cart?id=${o.id}" class="btn btn-success btn-block">Add to cart</a>
@@ -56,61 +59,81 @@
                             </div>
                         </c:forEach>
                     </div>
-                    
+
                     <button onclick="loadMore()" class="btn btn-primary mt-3">Load more</button>
-                
+
                 </div>
 
             </div>
         </div>
-
+                <!-- POPUP MINI REEL di chuyển được -->
+        <div id="mini-reel-popup">
+            <div id="mini-reel-popup-inner">
+                <video id="mini-reel-video" src="videos/video1.mp4" muted autoplay loop></video>
+                <button id="mini-reel-close" onclick="closeMiniReelPopup()">×</button>
+                <div id="mini-reel-live">▶️ Xem Reels</div>
+                
+            </div>
+        </div>
+                <!-- FULLSCREEN REEL xem dạng Facebook -->
+        <div id="full-reel-overlay">
+            <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
+            <div id="full-reel-inner">
+                <button class="full-reel-btn full-reel-btn-prev" onclick="prevReel()">‹</button>
+                <video id="full-reel-video" controls autoplay></video>
+                <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
+            </div>
+        </div>
         <jsp:include page="Footer.jsp"></jsp:include>
-        
-        <!-- Sư dung ajax Jquery de load san pham  -->
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script >
-                 function loadMore() {
-                	 var amount= document.getElementsByClassName("product").length;
-					$.ajax({
-						url: "/Project_BanHang/load",
-						type: "get",
-						data: {
-							exits: amount
-						},
-						
-						success: function (data) {
-							var row = document.getElementById("content");
-							row.innerHTML += data;
-						},
-						error: function (xhr) {
-							
-						}
-					});
-				}
-        
-        
-         <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
-           
-                 function searchByName(param) {
-                	 var txtSearch= param.value;
-					$.ajax({
-						url: "/Project_BanHang/searchAjax",
-						type: "get",
-						data: {
-							txt: txtSearch
-						},
-						
-						success: function (data) {
-							var row = document.getElementById("content");
-							row.innerHTML = data;
-						},
-						error: function (xhr) {
-							
-						}
-					});
-				}
-        
-        </script>
+
+
     </body>
+    <!-- Sư dung ajax Jquery de load san pham  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/video_reel.js"></script>
+
+    <script >
+        function loadMore() {
+        var amount = document.getElementsByClassName("product").length;
+                $.ajax({
+                url: "/Project_BanHang/load",
+                        type: "get",
+                        data: {
+                        exits: amount
+                        },
+                        success: function (data) {
+                        var row = document.getElementById("content");
+                                row.innerHTML += data;
+                        },
+                        error: function (xhr) {
+
+
+                        }
+ });
+        }
+
+
+<!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
+
+        function searchByName(param) {
+            var txtSearch = param.value;
+            $.ajax({
+                url: "/Project_BanHang/searchAjax",
+                type: "get",
+                data: {
+                    txt: txtSearch
+                },
+
+                success: function (data) {
+                    var row = document.getElementById("content");
+                    row.innerHTML = data;
+                },
+                error: function (xhr) {
+
+                }
+            });
+        }
+
+    </script>
 </html>
 

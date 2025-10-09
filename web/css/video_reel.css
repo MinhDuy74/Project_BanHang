@@ -1,0 +1,136 @@
+#mini-reel-popup {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  left: auto;
+  top: auto;
+  z-index: 2000;
+  width: 140px;
+  cursor: grab;
+  user-select: none;
+}
+#mini-reel-popup-inner {
+  width: 140px;
+  height: 250px;
+  box-shadow: 0 3px 16px #0003;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+}
+#mini-reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+#mini-reel-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+#mini-reel-live {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255,68,34,0.95);
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 0 4px 0;
+  font-size: 18px;
+  vertical-align: middle;
+}
+#mini-reel-index {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  font-size: 15px;
+  padding: 2px 9px;
+  border-radius: 30px;
+}
+#mini-reel-popup .mini-reel-btn {
+  margin: 7px 0 0 0;
+  padding: 4px 16px;
+  border-radius: 6px;
+  background: #ff5722;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+#full-reel-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.97);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+}
+#full-reel-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+#full-reel-video {
+  width: 400px;
+  max-width: 80vw;
+  max-height: 88vh;
+  border-radius: 20px;
+  background: #000;
+  box-shadow: 0 3px 24px #0008;
+}
+.full-reel-btn {
+  position: absolute;
+  top: 50%;
+  font-size: 55px;
+  background: none;
+  border: none;
+  color: white;
+  z-index: 3100;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.full-reel-btn-close {
+  top: 24px;
+  right: 36px;
+  left: auto;
+  font-size: 32px;
+  transform: none;
+  z-index: 3200;
+}
+.full-reel-btn-prev {
+  left: 16vw;
+}
+.full-reel-btn-next {
+  right: 16vw;
+}
+#full-reel-index {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 19px;
+  font-weight: bold;
+}

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +59,7 @@
             <input type="hidden" name="orderId" value="${orderId}" />
             <div class="form-group">
                 <label class="form-label">Số tiền thanh toán:</label>
-                <input type="text" class="form-control" name="amount" value="${amount}" readonly />
+                <input type="text" class="form-control" name="amount" value="<fmt:formatNumber value='${amount}' type='number' maxFractionDigits='0'/> VNĐ" readonly />
             </div>
             <div class="form-group">
                 <label class="form-label">Phương thức thanh toán:</label>

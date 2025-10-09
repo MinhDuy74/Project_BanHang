@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--begin of menu-->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -6,7 +7,7 @@
         <a class="navbar-brand" href="home"><img
 				src="https://ibrand.vn/wp-content/uploads/2022/10/logo-shop-giay-8.jpg"
 				alt="Logo" width="50" height="50"
-				class="d-inline-block align-text-top">Shoes</a>
+				class="d-inline-block align-text-top">PicklePro Shop</a>
 				
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
