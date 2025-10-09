@@ -385,7 +385,7 @@ public class DAO {
         return 0;
     }
 
-    // Phân trang cho ManagerProduct.jsp
+//     Phân trang cho ManagerProduct.jsp
     public List<Product> pagingProduct(int id, int index) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE sell_ID = ? ORDER BY id LIMIT 5 OFFSET ?";
@@ -411,7 +411,7 @@ public class DAO {
 
         return list;
     }
-
+   
     // Thêm màu mới cho sản phẩm, trả về color_id vừa tạo
     public int addColor(int productId, String colorName, String colorCode) {
         String query = "INSERT INTO product_colors (product_id, color_name, color_code) VALUES (?, ?, ?)";

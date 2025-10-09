@@ -50,6 +50,19 @@
                 width: 100% !important;
                 height: auto !important;
             }
+            #cart-toast {
+                position: fixed;
+                top: 80px;
+                right: 30px;
+                background: #2ecc40;
+                color: #fff;
+                padding: 16px 22px;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                z-index: 99999;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -62,7 +75,7 @@
                             <div class="card">
                                 <div class="row">
                                     <aside class="col-sm-5 border-right">
-                                        <!-- Carousel ảnh sản phẩm -->
+                                        <!--List ảnh sản phẩm--> 
                                         <div id="productCarousel" class="carousel slide" data-ride="carousel">
                                             <div class="carousel-inner">
                                             <c:forEach items="${listImages}" var="img" varStatus="loop">
@@ -71,27 +84,8 @@
                                                 </div>
                                             </c:forEach>
                                         </div>
-                                        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
                                     </div>
 
-                                    <!-- Thumbnail indicators (nếu muốn) -->
-                                    <ol class="carousel-indicators mt-2">
-                                        <c:forEach items="${listImages}" var="img" varStatus="loop">
-                                            <li data-target="#productCarousel" data-slide-to="${loop.index}" class="${loop.index == 0 ? 'active' : ''}">
-                                                <img src="${pageContext.request.contextPath}/${img}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;">
-                                            </li>
-                                        </c:forEach>
-                                    </ol>
-                                    </article>
-
-                                    <!-- Bên phần thông tin (col-sm-7), thêm chọn màu trước Quantity -->
                                     <c:if test="${not empty listColors}">
                                         <div class="mb-3">
                                             <label style="font-weight:bold;">Màu sắc:</label><br/>
@@ -135,6 +129,7 @@
                                                             <option> 1 </option>
                                                             <option> 2 </option>
                                                             <option> 3 </option>
+
                                                         </select>
                                                     </dd>
                                                 </dl>  <!-- item-property .// -->
@@ -142,8 +137,9 @@
 
                                         </div> <!-- row.// -->
                                         <hr>
-                                        <a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-                                        <a href="cart?id=${detail.id}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                                        <a href="cart?id=${detail.id}" class="btn btn-lg btn-primary text-uppercase"> Mua ngay</a>
+                                        <a href="#" class="btn btn-lg btn-outline-primary text-uppercase" data-id="${o.id}> <i class="fas fa-shopping-cart"></i> Thêm giỏ hàng </a>
+
                                     </article> <!-- card-body.// -->
                                 </aside> <!-- col.// -->
                             </div> <!-- row.// -->
@@ -160,7 +156,7 @@
                 <div id="mini-reel-live">▶️ Xem Reels</div>
             </div>
         </div>
-                <!-- FULLSCREEN REEL xem dạng Facebook -->
+        <!-- FULLSCREEN REEL xem dạng Facebook -->
         <div id="full-reel-overlay">
             <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
             <div id="full-reel-inner">
@@ -168,7 +164,9 @@
                 <video id="full-reel-video" controls autoplay></video>
                 <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
             </div>
-        </div>        <jsp:include page="Footer.jsp"></jsp:include>
+        </div>  
+        <div id="cart-toast"></div>
+        <jsp:include page="Footer.jsp"></jsp:include>
     </body>
 
     <script src="js/video_reel.js"></script>

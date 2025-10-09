@@ -47,13 +47,6 @@ public class ListProductController extends HttpServlet {
 			endPage++;
 		}
 		
-////		List<Product> list= dao.pagingProduct(index);
-//		
-//		request.setAttribute("listP", list);
-//		request.setAttribute("endP", endPage);
-//		request.setAttribute("tag", index);
-//		request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
-		
 	}
 
 	/**
@@ -62,6 +55,7 @@ public class ListProductController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+                 response.sendRedirect("listProduct");
 	}
 
 }

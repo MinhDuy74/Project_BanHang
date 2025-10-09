@@ -8,28 +8,40 @@
 
 <div class="col-sm-3">
     <div class="card bg-light mb-3">
-        <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
-        <ul class="list-group category_block">
-            <c:forEach items="${listC}" var="o">
-            
-                 <c:url  var="editURL" value="/category">
-                   <c:param name="cid" value="${o.cid}"/>
-                 
-                 </c:url>
-                 
-                <li class="list-group-item text-white ${tag==o.cid ?  "active" : "" }"><a href="${editURL}">${o.cname}</a></li>
+        <div class="card-header bg-primary text-white text-uppercase">
+            <i class="fa fa-list"></i> Lọc theo
+        </div>
+        <ul class="list-group category_block" id="categoryList">
+            <c:forEach var="o" items="${listC}" varStatus="loop">
+                <c:url var="editURL" value="/category">
+                    <c:param name="cid" value="${o.cid}"/>
+                </c:url>
+                <li class="list-group-item text-white ${tag==o.cid ? 'active' : ''}" 
+                    style="${loop.index >= 5 ? 'display:none;' : ''}" 
+                    data-index="${loop.index}">
+                    <a href="${editURL}">${o.cname}</a>
+                </li>
             </c:forEach>
-
         </ul>
+        <c:if test="${fn:length(listC) > 5}">
+            <button class="btn btn-link" id="showMoreBtn" onclick="showMoreCategories()">Xem thêm</button>
+        </c:if>
     </div>
     <div class="card bg-light mb-3">
-        <div class="card-header bg-success text-white text-uppercase">Last product</div>
+        <div class="card-header bg-success text-white text-uppercase">Sản phẩm mới</div>
         <div class="card-body">
-            <img class="img-fluid" src="https://i.ebayimg.com/images/g/C0AAAOSwCz5mNjQd/s-l960.webp" />
-            <h5 class="card-title">Giày đi chơi tết</h5>
-            <p class="card-text">Comfortable Sports Shoes Men Athletic Outdoor Cushioning Sneakers for Walking&Jogging (EUR Size 39-48)</p>
-            <p class="bloc_left_price">100 $</p>
+            <img class="img-fluid" src="img/sketcher.webp" />
+            <h5 class="card-title">Giày Pickleball Skechers Viper Court Pro</h5>
+            <p class="card-text">Mua Giày Skechers Viper Court Pro ‘Pink’ 246069-PNK chính hãng 100% có sẵn tại PicklePro Shop. 
+                Giao hàng miễn phí trong 1 ngày. Cam kết đền tiền X5 nếu phát hiện Fake. Đổi trả miễn phí size. FREE vệ sinh trọn đời. MUA NGAY!</p>
+            <p class="bloc_left_price">3.990.000 VNĐ</p>
         </div>
     </div>
-    
 </div>
+<script>
+function showMoreCategories() {
+    const items = document.querySelectorAll('#categoryList li');
+    items.forEach(item => item.style.display = 'block');
+    document.getElementById('showMoreBtn').style.display = 'none';
+}
+</script>
