@@ -38,9 +38,6 @@
                             <a href="${pageContext.request.contextPath}/add-product" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i> <span>Add New Product</span>
                             </a>
-                            <a href="delete?pid=${o.id}" class="btn btn-danger" data-toggle="modal">
-                                <i class="material-icons">&#xE15C;</i><span>Delete</span>
-                            </a>
                         </div>
                     </div>
                 </div>
