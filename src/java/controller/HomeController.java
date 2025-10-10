@@ -18,8 +18,9 @@ import model.Product;
  */
 @WebServlet("/home")
 public class HomeController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,33 +29,35 @@ public class HomeController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		//B1 get data from dao
-		DAO dao= new DAO();
-		//Product
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        //B1 get data from dao
+        DAO dao = new DAO();
+        //Product
 //		List<Product> list = dao.getAllProduct();
-		//lay 3 san pham dau 
-		List<Product> list= dao.getTop3();
-		//Caterogy
-		List<Category> listC= dao.getAllCategory();
-		
-		//B2 set data from dao
-		request.setAttribute("listP",list);
-		request.setAttribute("listC", listC);
-		request.getRequestDispatcher("Home.jsp").forward(request, response);
-	}
+        //lay 3 san pham dau 
+        List<Product> list = dao.getProductsWithOffset(0, 6);
+        //Caterogy
+        List<Category> listC = dao.getAllCategory();
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+        //B2 set data from dao
+        request.setAttribute("listP", list);
+        request.setAttribute("listC", listC);
+        request.getRequestDispatcher("Home.jsp").forward(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
 
 }

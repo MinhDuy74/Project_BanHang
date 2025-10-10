@@ -37,59 +37,50 @@
                         <div id="content" class="row">
                         <c:forEach items="${listP}" var="o">
                             <div class="product col-12 col-md-6 col-lg-4">
-                                <div class="card ">
+                                <div class="card">
                                     <img class="card-img-top" src="${o.image}" alt="Card image cap">
-                                    <div class="card-body ">
+                                    <div class="card-body">
                                         <h4 class="card-title show_txt"><a href="detail?pid=${o.id}" title="View Product">${o.name}</a></h4>
-                                        <p class="card-text show_txt">${o.title}
-                                        </p>
+                                        <p class="card-text show_txt">${o.title}</p>
                                         <div class="row">
                                             <div class="col">
                                                 <p class="btn btn-danger btn-block">
-                                                    <a href="detail?pid=${o.id}" style="color:inherit; text-decoration:none;">
-                                                        <span class="gia-tien">
-                                                            <fmt:formatNumber value="${o.price}" type="number" maxFractionDigits="0"/>
-                                                        </span> VNĐ
-                                                    </a>
+                                                    <span class="gia-tien"><fmt:formatNumber value="${o.price}" type="number" maxFractionDigits="0"/></span> VNĐ
                                                 </p>
                                             </div>
                                             <div class="col">
                                                 <button class="btn btn-success btn-block add-to-cart-btn" data-id="${o.id}">Thêm vào giỏ hàng</button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
-
-                    <button onclick="loadMore()" class="btn btn-primary mt-3">Load more</button>
+                    <button id="loadMoreBtn" class="btn btn-primary mt-3">Load more</button>
 
                 </div>
+            </div>
+            <!-- POPUP MINI REEL di chuyển được -->
+            <div id="mini-reel-popup">
+                <div id="mini-reel-popup-inner">
+                    <video id="mini-reel-video" src="videos/video1.mp4" muted autoplay loop></video>
+                    <button id="mini-reel-close" onclick="closeMiniReelPopup()">×</button>
+                    <div id="mini-reel-live">▶️ Xem Reels</div>
 
+                </div>
             </div>
-        </div>
-        <!-- POPUP MINI REEL di chuyển được -->
-        <div id="mini-reel-popup">
-            <div id="mini-reel-popup-inner">
-                <video id="mini-reel-video" src="videos/video1.mp4" muted autoplay loop></video>
-                <button id="mini-reel-close" onclick="closeMiniReelPopup()">×</button>
-                <div id="mini-reel-live">▶️ Xem Reels</div>
-
+            <!-- FULLSCREEN REEL xem dạng Facebook -->
+            <div id="full-reel-overlay">
+                <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
+                <div id="full-reel-inner">
+                    <button class="full-reel-btn full-reel-btn-prev" onclick="prevReel()">‹</button>
+                    <video id="full-reel-video" controls autoplay></video>
+                    <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
+                </div>
             </div>
-        </div>
-        <!-- FULLSCREEN REEL xem dạng Facebook -->
-        <div id="full-reel-overlay">
-            <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
-            <div id="full-reel-inner">
-                <button class="full-reel-btn full-reel-btn-prev" onclick="prevReel()">‹</button>
-                <video id="full-reel-video" controls autoplay></video>
-                <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
-            </div>
-        </div>
-        <div id="cart-toast" style="display:none; position:fixed; top:40px; right:40px; background:#28a745; color:white; padding:15px 25px; border-radius:7px; z-index:9999; font-weight:bold;"></div>
-        <jsp:include page="Footer.jsp"></jsp:include>
+            <div id="cart-toast" style="display:none; position:fixed; top:40px; right:40px; background:#28a745; color:white; padding:15px 25px; border-radius:7px; z-index:9999; font-weight:bold;"></div>
+            <jsp:include page="Footer.jsp"></jsp:include>
 
 
     </body>
@@ -99,57 +90,59 @@
     <script src="js/video_reel.js"></script>
 
     <script>
-                    $(document).on('click', '.add-to-cart-btn', function (e) {
+                        $(document).on('click', '.add-to-cart-btn', function (e) {
                         e.preventDefault();
                         var productId = $(this).data('id');
                         var quantity = 1; // số lượng mặc định là 1 ở trang danh sách
                         $.post('add-to-cart', {id: productId, quantity: quantity}, function (res) {
-                            $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
-                        });
-                    });
+                        $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
+});
+        });
     </script>
     <script >
-        function loadMore() {
-            var amount = document.getElementsByClassName("product").length;
-            $.ajax({
-                url: "/Project_BanHang/load",
+        <script> //load more
+        <script>
+        let loaded = 6;
+        $("#loadMoreBtn").click(functio n() {
+                $.ajax({
+                url: "loadMore",
+                        type: "ge
+                        t", data: { offset: loaded, limit: 6 },
+                        success: function(data) {
+                        $("#content").append(data);
+                        loaded += 6;
+                        if ($.trim(data) == "") {
+                        $("#loadMoreBtn").hide();
+                        }
+                        },
+                        error: function() {
+                        alert("Có lỗi xảy ra khi tải thêm sản phẩm!");
+                        }
+                });
+                });
+                
+                    <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
+                    
+function searchByName(param) 
+                        {
+var txtSearch = param.value;
+        $.ajax({
+url: "/Project_BanHang/searchAjax",
                 type: "get",
                 data: {
-                    exits: amount
+               txt: txtSearch
                 },
                 success: function (data) {
-                    var row = document.getElementById("content");
-                    row.innerHTML += data;
+                var row = document.getElementById("content");
+                row.innerHTML = data;
                 },
                 error: function (xhr) {
 
-
                 }
-            });
-        }
-
-
-<!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
-
-        function searchByName(param) {
-            var txtSearch = param.value;
-            $.ajax({
-                url: "/Project_BanHang/searchAjax",
-                type: "get",
-                data: {
-                    txt: txtSearch
-                },
-
-                success: function (data) {
-                    var row = document.getElementById("content");
-                    row.innerHTML = data;
-                },
-                error: function (xhr) {
-
-                }
-            });
-        }
-
-    </script>
+        });
+                                        }
+                                        
+                                        
+</script>
 </html>
 

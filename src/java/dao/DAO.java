@@ -448,23 +448,25 @@ public class DAO {
     }
 
     public List<Product> getProductsWithOffset(int offset, int limit) {
-        List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM Product ORDER BY id LIMIT ? OFFSET ?";
-        try {
-            conn = DBContext.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, limit);
-            ps.setInt(2, offset);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getDouble(4), rs.getString(5), rs.getString(6)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    List<Product> list = new ArrayList<>();
+    String query = "SELECT * FROM Product ORDER BY id DESC LIMIT ? OFFSET ?";
+    try {
+        conn = DBContext.getConnection();
+        ps = conn.prepareStatement(query);
+        ps.setInt(1, limit);
+        ps.setInt(2, offset);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(new Product(rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getDouble(4),
+                rs.getString(5),
+                rs.getString(6)));
         }
-        return list;
-    }
+    } catch (Exception e) { e.printStackTrace(); }
+    return list;
+}
 
     // Thêm màu mới cho sản phẩm, trả về color_id vừa tạo
     public int addColor(int productId, String colorName, String colorCode) {

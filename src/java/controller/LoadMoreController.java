@@ -1,81 +1,63 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import dao.DAO;
 import model.Product;
-import java.text.DecimalFormat;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-/**
- * Servlet implementation class LoadMoreController
- */
-@WebServlet("/load")
+@WebServlet("/loadMore")
 public class LoadMoreController extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoadMoreController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Lấy offset và limit từ request (mặc định 0 và 6)
+        int offset = 0;
+        int limit = 6;
+        try {
+            if (request.getParameter("offset") != null) {
+                offset = Integer.parseInt(request.getParameter("offset"));
+            }
+            if (request.getParameter("limit") != null) {
+                limit = Integer.parseInt(request.getParameter("limit"));
+            }
+        } catch (Exception e) {
+            // fallback nếu lỗi parseInt
+            offset = 0;
+            limit = 6;
+        }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        //load ra 3 san pham 
-        String amount = request.getParameter("exits");
-        int iamount = Integer.parseInt(amount);
         DAO dao = new DAO();
-        List<Product> list = dao.getNextTop3(iamount);
+        List<Product> list = dao.getProductsWithOffset(offset, limit);
 
-        //int dữ liệu html
-        PrintWriter out = response.getWriter();
-
+        // Trả về HTML từng sản phẩm (giống đoạn trong forEach ở Home.jsp)
+        response.setContentType("text/html;charset=UTF-8");
         for (Product o : list) {
-            out.print(" <div class=\"product col-12 col-md-6 col-lg-4\">\r\n"
-                    + "                                <div class=\"card \">\r\n"
-                    + "                                    <img class=\"card-img-top\" src=\"" + o.getImage() + "\" alt=\"Card image cap\">\r\n"
-                    + "                                    <div class=\"card-body \">\r\n"
-                    + "                                        <h4 class=\"card-title show_txt\"><a href=\"detail?pid=" + o.getId() + "\" title=\"View Product\">" + o.getName() + "</a></h4>\r\n"
-                    + "                                        <p class=\"card-text show_txt\">" + o.getTitle() + "\r\n"
-                    + "                                        </p>\r\n"
-                    + "                                        <div class=\"row\">\r\n"
-                    + "                                            <div class=\"col\">\r\n"
-                    + "                                                <p class=\"btn btn-danger btn-block\">" + formatter.format(o.getPrice()) + " VNĐ</p>\r\n"
-                    + "                                            </div>\r\n"
-                    + "                                            <div class=\"col\">\r\n"
-                    + "                                                <a href=\"cart?id=" + o.getId() + "\" class=\"btn btn-success btn-block\">Add to cart</a>\r\n"
-                    + "                                            </div>\r\n"
-                    + "                                        </div>\r\n"
-                    + "                                    </div>\r\n"
-                    + "                                </div>\r\n"
-                    + "                            </div>");
+            response.getWriter().println(
+                "<div class='product col-12 col-md-6 col-lg-4'>" +
+                  "<div class='card'>" +
+                    "<img class='card-img-top' src='" + o.getImage() + "' alt='Card image cap'>" +
+                    "<div class='card-body'>" +
+                      "<h4 class='card-title show_txt'><a href='detail?pid=" + o.getId() + "' title='View Product'>" + o.getName() + "</a></h4>" +
+                      "<p class='card-text show_txt'>" + o.getTitle() + "</p>" +
+                      "<div class='row'>" +
+                        "<div class='col'>" +
+                          "<p class='btn btn-danger btn-block'>" +
+                            "<span class='gia-tien'>" + String.format("%,.0f", o.getPrice()) + "</span> VNĐ" +
+                          "</p>" +
+                        "</div>" +
+                        "<div class='col'>" +
+                          "<button class='btn btn-success btn-block add-to-cart-btn' data-id='" + o.getId() + "'>Thêm vào giỏ hàng</button>" +
+                        "</div>" +
+                      "</div>" +
+                    "</div>" +
+                  "</div>" +
+                "</div>"
+            );
         }
     }
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
-    }
-
 }
