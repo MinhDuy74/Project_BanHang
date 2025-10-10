@@ -138,8 +138,10 @@
                                         </div> <!-- row.// -->
                                         <hr>
                                         <a href="cart?id=${detail.id}" class="btn btn-lg btn-primary text-uppercase"> Mua ngay</a>
-                                        <a href="#" class="btn btn-lg btn-outline-primary text-uppercase" data-id="${o.id}> <i class="fas fa-shopping-cart"></i> Thêm giỏ hàng </a>
-
+                                        <button class="btn btn-lg btn-outline-primary text-uppercase add-to-cart-btn"
+                                                data-id="${detail.id}">
+                                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                        </button>
                                     </article> <!-- card-body.// -->
                                 </aside> <!-- col.// -->
                             </div> <!-- row.// -->
@@ -170,4 +172,14 @@
     </body>
 
     <script src="js/video_reel.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+                    $(document).on('click', '.add-to-cart-btn', function (e) {
+                        e.preventDefault();
+                        var productId = $(this).data('id');
+                        $.post('add-to-cart', {id: productId}, function (res) {
+                            $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
+                        });
+                    });
+    </script>
 </html>

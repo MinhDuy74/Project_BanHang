@@ -23,7 +23,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
-                                
+
                             </ol>
                         </nav>
                     </div>
@@ -50,7 +50,7 @@
                                                 </p>
                                             </div>
                                             <div class="col">
-                                                <a href="cart?id=${o.id}" class="btn btn-success btn-block">Add to cart</a>
+                                                <button class="btn btn-success btn-block add-to-cart-btn" data-id="${o.id}">Thêm vào giỏ hàng</button>
                                             </div>
                                         </div>
                                     </div>
@@ -65,16 +65,16 @@
 
             </div>
         </div>
-                <!-- POPUP MINI REEL di chuyển được -->
+        <!-- POPUP MINI REEL di chuyển được -->
         <div id="mini-reel-popup">
             <div id="mini-reel-popup-inner">
                 <video id="mini-reel-video" src="videos/video1.mp4" muted autoplay loop></video>
                 <button id="mini-reel-close" onclick="closeMiniReelPopup()">×</button>
                 <div id="mini-reel-live">▶️ Xem Reels</div>
-                
+
             </div>
         </div>
-                <!-- FULLSCREEN REEL xem dạng Facebook -->
+        <!-- FULLSCREEN REEL xem dạng Facebook -->
         <div id="full-reel-overlay">
             <button class="full-reel-btn full-reel-btn-close" onclick="closeReelFull()">×</button>
             <div id="full-reel-inner">
@@ -88,28 +88,37 @@
 
     </body>
     <!-- Sư dung ajax Jquery de load san pham  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="js/video_reel.js"></script>
 
+    <script>
+                    $(document).on('click', '.add-to-cart-btn', function (e) {
+                        e.preventDefault();
+                        var productId = $(this).data('id');
+                        $.post('add-to-cart', {id: productId}, function (res) {
+                            $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
+                        });
+                    });
+    </script>
     <script >
-        function loadMore() {
-        var amount = document.getElementsByClassName("product").length;
-                $.ajax({
-                url: "/Project_BanHang/load",
-                        type: "get",
-                        data: {
-                        exits: amount
-                        },
-                        success: function (data) {
-                        var row = document.getElementById("content");
+                            function loadMore() {                         var amount = document.getElementsByClassName("product").length;
+                            $.ajax({
+                                    url: "/Project_BanHang/load",
+                                    type: "get",
+                                    data: {
+                                    exits: amount
+                                    },
+                            success: function (data) {
+                                    var row = document.getElementById("content");
                                 row.innerHTML += data;
-                        },
-                        error: function (xhr) {
+                            },
+                            error: function (xhr) {
 
 
-                        }
- });
-        }
+                            }
+                        });
+                    }
 
 
 <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
