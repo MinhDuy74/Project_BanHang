@@ -11,14 +11,6 @@
     <body>
         <jsp:include page="Menu.jsp"></jsp:include>
         <%@ page import="model.Cart" %>
-<%
-    Cart cart = (Cart) session.getAttribute("cart");
-    if (cart == null) {
-        out.println("<div style='color: red'>Giỏ hàng trong session: NULL</div>");
-    } else {
-        out.println("<div style='color: green'>Danh sách sản phẩm trong session: " + cart.getProductIds() + "</div>");
-    }
-%>
         <div class="shopping-cart">
             <div class="px-4 px-lg-0">
                 <div class="pb-5">
@@ -73,7 +65,7 @@
                                                             </td>
                                                             <td class="align-middle">
                                                                 <a href="cart?id=${o.id}&action=sub">
-                                                                    <button class="btn btn-sm btn-secondary">-</button>
+                                                                   <button class="btn btn-sm btn-secondary">-</button>
                                                                 </a>
                                                                 <strong>${o.amount}</strong>
                                                                 <a href="cart?id=${o.id}&action=add">
@@ -85,7 +77,7 @@
                                                                 <c:set var="total" value="${total + (o.price * o.amount)}" scope="page"/>
                                                             </td>
                                                             <td class="align-middle">
-                                                                <a href="remove?id=${o.id}" class="text-dark">
+                                                                <a href="cart?id=${o.id}&action=remove" class="text-dark">
                                                                     <button type="button" class="btn btn-danger btn-sm">Xóa</button>
                                                                 </a>
                                                             </td>

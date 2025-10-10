@@ -46,12 +46,17 @@
                                         <div class="row">
                                             <div class="col">
                                                 <p class="btn btn-danger btn-block">
-                                                    <fmt:formatNumber value="${o.price}" type="number" maxFractionDigits="0"/> VNĐ
+                                                    <a href="detail?pid=${o.id}" style="color:inherit; text-decoration:none;">
+                                                        <span class="gia-tien">
+                                                            <fmt:formatNumber value="${o.price}" type="number" maxFractionDigits="0"/>
+                                                        </span> VNĐ
+                                                    </a>
                                                 </p>
                                             </div>
                                             <div class="col">
                                                 <button class="btn btn-success btn-block add-to-cart-btn" data-id="${o.id}">Thêm vào giỏ hàng</button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -83,6 +88,7 @@
                 <button class="full-reel-btn full-reel-btn-next" onclick="nextReel()">›</button>
             </div>
         </div>
+        <div id="cart-toast" style="display:none; position:fixed; top:40px; right:40px; background:#28a745; color:white; padding:15px 25px; border-radius:7px; z-index:9999; font-weight:bold;"></div>
         <jsp:include page="Footer.jsp"></jsp:include>
 
 
@@ -96,29 +102,31 @@
                     $(document).on('click', '.add-to-cart-btn', function (e) {
                         e.preventDefault();
                         var productId = $(this).data('id');
-                        $.post('add-to-cart', {id: productId}, function (res) {
+                        var quantity = 1; // số lượng mặc định là 1 ở trang danh sách
+                        $.post('add-to-cart', {id: productId, quantity: quantity}, function (res) {
                             $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
                         });
                     });
     </script>
     <script >
-                            function loadMore() {                         var amount = document.getElementsByClassName("product").length;
-                            $.ajax({
-                                    url: "/Project_BanHang/load",
-                                    type: "get",
-                                    data: {
-                                    exits: amount
-                                    },
-                            success: function (data) {
-                                    var row = document.getElementById("content");
-                                row.innerHTML += data;
-                            },
-                            error: function (xhr) {
+        function loadMore() {
+            var amount = document.getElementsByClassName("product").length;
+            $.ajax({
+                url: "/Project_BanHang/load",
+                type: "get",
+                data: {
+                    exits: amount
+                },
+                success: function (data) {
+                    var row = document.getElementById("content");
+                    row.innerHTML += data;
+                },
+                error: function (xhr) {
 
 
-                            }
-                        });
-                    }
+                }
+            });
+        }
 
 
 <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->

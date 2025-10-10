@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 import context.DBContext;
+import static context.DBContext.getConnection;
 import model.Account;
 import model.Category;
 import model.Payment;
@@ -385,11 +386,10 @@ public class DAO {
         return 0;
     }
 
-//     Phân trang cho ManagerProduct.jsp
+// Phân trang cho manager (theo seller)
     public List<Product> pagingProduct(int id, int index) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE sell_ID = ? ORDER BY id LIMIT 5 OFFSET ?";
-
         try {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
@@ -404,14 +404,68 @@ public class DAO {
                         rs.getString(5),
                         rs.getString(6)));
             }
-
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-
         return list;
     }
-   
+// Phân trang tổng quát
+
+    public List<Product> pagingProduct(int index) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product LIMIT ?,5";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, (index - 1) * 5);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalProductBySeller(int sellerId) {
+        String query = "SELECT COUNT(*) FROM Product WHERE sell_ID = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, sellerId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Product> getProductsWithOffset(int offset, int limit) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM Product ORDER BY id LIMIT ? OFFSET ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, limit);
+            ps.setInt(2, offset);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getDouble(4), rs.getString(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     // Thêm màu mới cho sản phẩm, trả về color_id vừa tạo
     public int addColor(int productId, String colorName, String colorCode) {
         String query = "INSERT INTO product_colors (product_id, color_name, color_code) VALUES (?, ?, ?)";

@@ -79,7 +79,7 @@
                             </button>
                         </div>
                     </div>
-                    <a class="btn btn-success btn-sm ml-3" href="print">
+                    <a class="btn btn-success btn-sm ml-3" href="cart">
                         <i class="fa fa-shopping-cart"></i> Giỏ hàng
 
                         <!--                    <span class="badge badge-light">3</span>-->

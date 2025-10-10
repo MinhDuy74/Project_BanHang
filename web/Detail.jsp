@@ -137,7 +137,7 @@
 
                                         </div> <!-- row.// -->
                                         <hr>
-                                        <a href="cart?id=${detail.id}" class="btn btn-lg btn-primary text-uppercase"> Mua ngay</a>
+                                        <a href="cart?id=${detail.id}&action=add" class="btn btn-lg btn-primary text-uppercase"> Mua ngay</a>
                                         <button class="btn btn-lg btn-outline-primary text-uppercase add-to-cart-btn"
                                                 data-id="${detail.id}">
                                             <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
