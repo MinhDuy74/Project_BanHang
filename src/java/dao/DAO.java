@@ -448,25 +448,27 @@ public class DAO {
     }
 
     public List<Product> getProductsWithOffset(int offset, int limit) {
-    List<Product> list = new ArrayList<>();
-    String query = "SELECT * FROM Product ORDER BY id DESC LIMIT ? OFFSET ?";
-    try {
-        conn = DBContext.getConnection();
-        ps = conn.prepareStatement(query);
-        ps.setInt(1, limit);
-        ps.setInt(2, offset);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            list.add(new Product(rs.getInt(1),
-                rs.getString(2),
-                rs.getString(3),
-                rs.getDouble(4),
-                rs.getString(5),
-                rs.getString(6)));
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM Product ORDER BY id DESC LIMIT ? OFFSET ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, limit);
+            ps.setInt(2, offset);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) { e.printStackTrace(); }
-    return list;
-}
+        return list;
+    }
 
     // Thêm màu mới cho sản phẩm, trả về color_id vừa tạo
     public int addColor(int productId, String colorName, String colorCode) {
@@ -551,11 +553,54 @@ public class DAO {
         return list;
     }
 
-    public static void main(String[] args) {
-        DAO dao = new DAO();
-        List<Product> list = dao.pagingProduct(1, 0);
-        for (Product o : list) {
-            System.out.println(o);
+    // Lấy toàn bộ tài khoản
+    public List<Account> getAllAccount() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT * FROM Account";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt("id"),
+                        rs.getString("user"),
+                        rs.getString("pass"),
+                        rs.getInt("isSell"),
+                        rs.getInt("isAdmin")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+// Xóa tài khoản
+    public void deleteAccount(int id) {
+        String sql = "DELETE FROM Account WHERE id=?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+// Đổi quyền tài khoản
+    public void updateRole(int id, int isSell, int isAdmin) {
+        String sql = "UPDATE Account SET isSell=?, isAdmin=? WHERE id=?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, isSell);
+            ps.setInt(2, isAdmin);
+            ps.setInt(3, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

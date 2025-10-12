@@ -40,7 +40,7 @@
                 <ul class="navbar-nav m-auto">
                     <c:if test="${sessionScope.acc.isAdmin == 1}">
                         <li class="nav-item">
-                            <a class="nav-link" href="ManagerAccount.jsp">Quản lý tài khoản</a>
+                            <a class="nav-link" href="managerAccount">Quản lý tài khoản</a>
                         </li>
                     </c:if>
 

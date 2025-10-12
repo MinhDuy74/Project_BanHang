@@ -91,58 +91,54 @@
 
     <script>
                         $(document).on('click', '.add-to-cart-btn', function (e) {
-                        e.preventDefault();
-                        var productId = $(this).data('id');
-                        var quantity = 1; // số lượng mặc định là 1 ở trang danh sách
-                        $.post('add-to-cart', {id: productId, quantity: quantity}, function (res) {
-                        $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
-});
+                            e.preventDefault();
+                            var productId = $(this).data('id');
+                            var quantity = 1; // số lượng mặc định là 1 ở trang danh sách
+                            $.post('add-to-cart', {id: productId, quantity: quantity}, function (res) {
+                                $('#cart-toast').text('Đã thêm vào giỏ hàng!').fadeIn().delay(1000).fadeOut();
+                            });
+                        });
+    </script> 
+    <script>
+        let loaded = 6;
+        $("#loadMoreBtn").click(function () {
+            $.ajax({
+                url: "loadMore",
+                type: "get",
+                data: {offset: loaded, limit: 6},
+                success: function (data) {
+                    console.log("Data returned:", data); // kiểm tra data
+                    $("#content").append(data);
+                    loaded += 6;
+                    if ($.trim(data) == "") {
+                        $("#loadMoreBtn").hide();
+                    }
+                }
+            });
         });
     </script>
-    <script >
-        <script> //load more
-        <script>
-        let loaded = 6;
-        $("#loadMoreBtn").click(functio n() {
-                $.ajax({
-                url: "loadMore",
-                        type: "ge
-                        t", data: { offset: loaded, limit: 6 },
-                        success: function(data) {
-                        $("#content").append(data);
-                        loaded += 6;
-                        if ($.trim(data) == "") {
-                        $("#loadMoreBtn").hide();
-                        }
-                        },
-                        error: function() {
-                        alert("Có lỗi xảy ra khi tải thêm sản phẩm!");
-                        }
-                });
-                });
-                
-                    <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
-                    
-function searchByName(param) 
-                        {
-var txtSearch = param.value;
-        $.ajax({
-url: "/Project_BanHang/searchAjax",
+    <!-- Sư dung ajax Jquery de tim kiem tu dong san pham  -->
+    <script>
+        function searchByName(param)
+        {
+            var txtSearch = param.value;
+            $.ajax({
+                url: "/Project_BanHang/searchAjax",
                 type: "get",
                 data: {
-               txt: txtSearch
+                    txt: txtSearch
                 },
                 success: function (data) {
-                var row = document.getElementById("content");
-                row.innerHTML = data;
+                    var row = document.getElementById("content");
+                    row.innerHTML = data;
                 },
                 error: function (xhr) {
 
                 }
-        });
-                                        }
-                                        
-                                        
-</script>
+            });
+        }
+
+
+    </script>
 </html>
 
