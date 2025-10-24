@@ -298,24 +298,65 @@ public class DAO {
         }
     }
 
-    // Sửa sản phẩm trong manager.jsp
     public void updateProduct(String name, String image, String price, String title,
             String description, String category, String pid) {
         String query = "UPDATE Product SET name=?, image=?, price=?, title=?, description=?, cateID=? WHERE id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, image);
-            ps.setString(3, price);
+            // parse price -> double
+            double priceVal = 0;
+            try {
+                priceVal = Double.parseDouble(price);
+            } catch (NumberFormatException nfe) {
+                // nếu parse fail, giữ 0 hoặc xử lý theo logic của bạn
+                nfe.printStackTrace();
+            }
+            ps.setDouble(3, priceVal);
             ps.setString(4, title);
             ps.setString(5, description);
-            ps.setString(6, category);
-            ps.setString(7, pid);
-            ps.executeUpdate();
+            // parse category -> int
+            int cateId = 0;
+            try {
+                cateId = Integer.parseInt(category);
+            } catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
+            ps.setInt(6, cateId);
+            // parse pid -> int
+            int idVal = 0;
+            try {
+                idVal = Integer.parseInt(pid);
+            } catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
+            ps.setInt(7, idVal);
 
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Updated product id=" + pid);
+            } else {
+                System.out.println("No product updated for id=" + pid);
+            }
         } catch (Exception e) {
-
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception ignore) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception ignore) {
+            }
         }
     }
 

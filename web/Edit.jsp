@@ -28,74 +28,58 @@
             }
         </style>
     <body>
-        
-        <div class="container">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Edit <b>Product</b></h2>
-                        </div>
-                        <div class="col-sm-6">
-                        </div>
-                    </div>
+        <form action="edit" method="post" enctype="multipart/form-data">
+            <div class="modal-header">						
+                <h4 class="modal-title">Edit Product</h4>
+                <button  type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">					
+                <div class="form-group">
+                    <label>ID</label>
+                    <input value="${detail.id }" name="id" type="text" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input value="${detail.name }" name="name" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <!-- Hiển thị ảnh hiện tại -->
+                    <c:if test="${not empty detail.image}">
+                        <img src="${detail.image}" alt="Current image" style="width:200px;height:120px;display:block;margin-bottom:8px;"/>
+                    </c:if>
+                    <!-- Giữ đường dẫn ảnh cũ nếu không upload file mới -->
+                    <input type="hidden" name="currentImage" value="${detail.image}" />
+                    <!-- Nếu muốn upload ảnh mới -->
+                    <input name="image" type="file" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input value="${detail.price}" name="price" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <textarea name="title" class="form-control" required>${detail.title }</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" required>${detail.description}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category" class="form-select" aria-label="Default select example">
+                        <c:forEach items="${listC}" var="o">
+                            <option value="${o.cid}">
+                                <c:out value="${o.cname}" />
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
-            <div id="editEmployeeModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="edit" method="post">
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Edit Product</h4>
-                                <button  type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">					
-                                <div class="form-group">
-                                    <label>ID</label>
-                                    <input  value="${detail.id }" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input  value="${detail.name }" name="name" type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Image</label>
-                                    <input value="${detail.image }" name="image" type="file" class="form-control" accept="image/*" required>
-
-                                </div>
-                                <div class="form-group">
-                                    <label>Price</label>
-                                    <input value="${detail.price}" name="price" type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Title</label>
-                                    <textarea name="title" class="form-control" required>${detail.title }</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea name="description" class="form-control" required>${detail.description}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <select name="category" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${listC}" var="o">
-                                            <option value="${o.cid}">${o.cname} <option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <input type="submit" class="btn btn-success" value="Edit">
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-success" value="Edit">
             </div>
-
-        </div>
-
-
+        </form>
         <script src="js/manager.js" type="text/javascript"></script>
     </body>
 </html>
